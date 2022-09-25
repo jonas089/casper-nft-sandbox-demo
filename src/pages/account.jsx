@@ -1,8 +1,7 @@
 import React from 'react';
 import {CLPublicKey, CLAccountHash, CLValueBuilder} from 'casper-js-sdk';
 import {connectSigner, getStatus} from '../casper/lib.js';
-import {getOwnedIds} from '../casper/network.js';
-
+import {getOwnedIds, getMetadata} from '../casper/network.js';
 function toHexString(byteArray) {
   return Array.from(byteArray, function(byte) {
   return ('0' + (byte & 0xFF).toString(16)).slice(-2);
@@ -13,7 +12,9 @@ function Account() {
   const [PubKey, setPubKey] = React.useState(null);
   const [AccountHash, setAccountHash] = React.useState(null);
   const [fetchStatus, setFetchStatus] = React.useState(false);
+  const [metaStatus, setMetaStatus] = React.useState(false);
   const [OwnedNFTs, setOwnedNFTs] = React.useState([]);
+  const [Metadata, setMetadata] = React.useState([]);
 
   getStatus().then(s => {
     if (s == true){
@@ -51,7 +52,16 @@ function Account() {
     // add to OwnedNFTs state. => then render.
   }
 
-  if (AccountHash == null || fetchStatus == false){
+  if (fetchStatus == true && metaStatus == false){
+    getMetadata(OwnedNFTs).then(
+      meta => {
+        setMetadata(meta);
+        setMetaStatus(true);
+      }
+    );
+  }
+
+  if (AccountHash == null || metaStatus == false){
     return (
       <div className='text-center content-center'>
         <h1>
@@ -65,11 +75,25 @@ function Account() {
   }
   else{
     return (
-      <div className='bg-gray-800'>
+      <div>
         <h1 className='text-red-400 text-center outline outline-red-400'>My NFTs</h1>
-        {OwnedNFTs.map((hash_id) => (
-         <h1 className='text-white'>Owned Token at Hash: {hash_id}</h1> 
-        ))}
+        <div className='bg-gray-800 flex items-stretch items-center flex-wrap bg-cover'>
+          {Metadata.map((meta, id) => (
+            // style div with tailwind
+            <div class="px-5 py-6">
+            <div class="max-w-sm rounded break-all shadow-lg px-8 bg-gray-200 py-2 ">
+                <p>{OwnedNFTs[id].toString()}</p>
+                <img src={JSON.parse(meta)["nft_url"].toString()} alt="Random" className='w-full h-96' />
+                <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2">{JSON.parse(meta)["nft_name"].toString()}</div>
+                    <p class="text-gray-700 text-base">
+                      {JSON.parse(meta)["nft_description"].toString()}
+                    </p>
+                </div>
+            </div>
+          </div>
+          ))}
+        </div>
       </div>
     );
   }
