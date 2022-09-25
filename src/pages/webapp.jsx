@@ -1,11 +1,14 @@
 import React from 'react';
-import { Mint } from '../casper/network.js';
+import { Mint, Transfer } from '../casper/network.js';
 import { CLPublicKey, CLAccountHash } from 'casper-js-sdk';
 import { getStatus, connectSigner } from '../casper/lib.js';
+
 function WebApp() {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [url, setUrl] = React.useState('');
+  const [Id, setId] = React.useState('');
+  const [Recipient, setRecipient] = React.useState('');
   const handleName = event => {
     setName(event.target.value);
   };
@@ -15,6 +18,12 @@ function WebApp() {
   const handleUrl = event => {
     setUrl(event.target.value);
   };
+  const handleId = event => {
+    setId(event.target.value);
+  }
+  const handleRecipient = event => {
+    setRecipient(event.target.value);
+  }
 
   const [PubKey, setPubKey] = React.useState(null);
   const [AccountHash, setAccountHash] = React.useState(null);
@@ -81,6 +90,28 @@ function WebApp() {
                 </button>
               </div>
             </form>
+
+            <form className="bg-white shadow-md rounded px-5 pt-6 pb-8 mb-4">
+              <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2" for="description">
+                  Hash Id
+                </label>
+                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="Id" type="text" placeholder="Token Hash Id..." onChange={handleId} value={Id}/>
+              </div>
+              <div className="mb-6">
+                <label className="block text-gray-700 text-sm font-bold mb-2" for="url">
+                  Recipient
+                </label>
+                <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="Recipient" type="text" placeholder="0x00" onChange={handleRecipient} value={Recipient}/>
+              </div>
+
+              <div className="grid place-items-center">
+                <button onClick={() => Transfer(Id, Recipient, AccountHash, PubKey)} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                  Transfer
+                </button>
+              </div>
+            </form>
+
           </div>
         </div>
       </div>

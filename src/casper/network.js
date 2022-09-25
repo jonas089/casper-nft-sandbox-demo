@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { RuntimeArgs, CLValueBuilder, Contracts, CasperClient, DeployUtil, CLPublicKey, Signer } from 'casper-js-sdk';
+import { RuntimeArgs, CLValueBuilder, Contracts, CasperClient, DeployUtil, CLPublicKey, Signer, CLAccountHash } from 'casper-js-sdk';
 import { cep78_contract_hash, node_addr } from './constants.js';
 
 
@@ -96,6 +96,33 @@ async function Mint(name, description, url, account_hash, activeKey){
     });
 }
 
+async function Transfer(id, recipient, AccountHash, activeKey){
+    console.log("Transferring Token...");
+    const accountHex = CLPublicKey.fromHex(recipient).toAccountHash();
+    const clKeyAccHash = new CLAccountHash(accountHex);
+    const args = RuntimeArgs.fromMap({
+        'token_hash': CLValueBuilder.string(id),
+        'source_key': CLValueBuilder.key(AccountHash),
+        'target_key': CLValueBuilder.key(clKeyAccHash)
+            //'{\"nft_name\":\"somename01\",\"nft_description\":\"somedescription01\",\"nft_url\":\"someurl01\"}'
+    });
+    const pubkey = CLPublicKey.fromHex(activeKey);
+    const client = await new CasperClient(node_addr);
+    const contract = new Contracts.Contract(client);
+    contract.setContractHash(cep78_contract_hash);
+    console.log("Contract: ", contract);
+    // paying fixed fee of 3 cspr for a mint
+    console.log("Pubkey: ", pubkey);
+    const result = contract.callEntrypoint("transfer", args, pubkey, "casper-test", "3000000000", [], 10000000);
+    const deployJson = DeployUtil.deployToJson(result);
+    console.log("DeployJson: ", deployJson);
+    Signer.sign(deployJson, activeKey).then((success) => {
+        sendDeploy(success);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
 // Send deploy to local axios server DON'T TOUCH !
 function sendDeploy(signedJson){
     console.log("Signed json: ", signedJson);
@@ -108,4 +135,4 @@ function sendDeploy(signedJson){
 } 
 
 
-export {Mint, getOwnedIds, getMetadata, getStatus, getAccountHash};
+export {Mint, Transfer, getOwnedIds, getMetadata, getStatus, getAccountHash};
