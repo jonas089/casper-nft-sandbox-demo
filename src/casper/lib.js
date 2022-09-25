@@ -23,4 +23,5 @@ function connectSigner(){
       }
   });
 }
+
 export {connectSigner, getStatus}
