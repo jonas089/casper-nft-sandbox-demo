@@ -1,17 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from "react-dom";
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import WebApp from './pages/webapp';
+import Account from './pages/account';
+import Layout from './components/Layout';
+import {
+  BrowserRouter,
+  Routes, //replaces "Switch" used till v5
+  Route,
+} from "react-router-dom";
+import {connectSigner} from './casper/lib.js';
+export default function App(){
+  connectSigner();
+  return(
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+          <Route index element={<Account />} />
+          <Route path="app" element={<WebApp />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+    );
+}
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+ReactDOM.render(<App />, document.getElementById("root"));
 reportWebVitals();
