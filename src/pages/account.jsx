@@ -39,7 +39,7 @@ function Account() {
   if (PubKey != null && AccountHash != null && fetchStatus == false){
 
     //console.log("Typed account hash: ", AccountHash);
-    
+
     let accHash = CLPublicKey.fromHex(PubKey).toAccountHash();
     let accHashHex = toHexString(accHash);
     //AccountHash;
@@ -63,13 +63,10 @@ function Account() {
 
   if (AccountHash == null || metaStatus == false){
     return (
-      <div className='text-center content-center'>
-        <h1>
-          Loading...
-        </h1>
-        <h1>
-          If this state persists, unlock the Signer and re-load the application.
-        </h1>
+      <div class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
+      	<div class="animate-spin loader ease-linear rounded-half border-4 border-t-4 border-gray-100 h-12 w-12 mb-4"></div>
+      	<h2 class="text-center text-white text-xl font-semibold">Loading...</h2>
+      	<p class="w-1/3 text-center text-white">If loading takes longer than a few seconds, unlock the Signer and refresh the website.</p>
       </div>
     )
   }
