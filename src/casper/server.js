@@ -11,6 +11,7 @@ app.listen(port, () => {
   console.log(`Sandbox backend listening at http://localhost:${port}`)
 });
 
+// webserver route to fetch hash identifiers of owned NFTs for an account.
 app.post('/getOwnedIds', async (req, res) => {
   //const client = await new CasperClient(node_addr);
   const account_hash = req.body.account_hash;
@@ -40,6 +41,7 @@ app.post('/getOwnedIds', async (req, res) => {
   await res.send(owned);
 })
 
+// webserver route to query metadata for a set of hash identifiers
 app.post('/metadata', async(req, res) => {
   const client = await new CasperClient(node_addr);
   var product_contract = new Contracts.Contract(client);
@@ -60,7 +62,7 @@ app.post('/metadata', async(req, res) => {
   await res.send(meta);
 })
 
-
+// webserver route to send deploys to a node.
 app.post('/sendDeploy', (req, res) => {
   const signedJson = req.body;
   console.log(signedJson);

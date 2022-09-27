@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mint, Transfer } from '../casper/network.js';
+import { Mint, Transfer } from '../casper/controller.js';
 import { CLPublicKey, CLAccountHash } from 'casper-js-sdk';
 import { getStatus, connectSigner } from '../casper/lib.js';
 

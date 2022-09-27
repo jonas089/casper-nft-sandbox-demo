@@ -1,17 +1,24 @@
 import React from 'react';
 import ReactDOM from "react-dom";
+// tailwind in index.css
 import './index.css';
+// optional
 import reportWebVitals from './reportWebVitals';
+
 import WebApp from './pages/webapp';
 import Account from './pages/account';
 import Layout from './components/Layout';
+
 import {
   BrowserRouter,
-  Routes, //replaces "Switch" used till v5
+  Routes,
   Route,
 } from "react-router-dom";
+
 import {connectSigner} from './casper/lib.js';
+
 export default function App(){
+  // connect Casper Signer on page load
   connectSigner();
   return(
     <BrowserRouter>

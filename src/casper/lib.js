@@ -1,3 +1,4 @@
+// This script features helper functions to integrate with the Casper Signer.
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
