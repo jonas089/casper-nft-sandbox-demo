@@ -5,9 +5,10 @@ This app is an experimental platform built for educational purposes on the Caspe
 - Mint NFTs through the Casper Signer, fixed fee of 3 CSPR
 - See the Hash IDs of Owned NFTs in the "Account" panel
 - See all relevant metadata, aswell as a rendered image
-
-## Future functionality
 - Transfer NFTs to other accounts
+## Future functionality
+- Support Multi-token Standard 
+- Manage multiple collections
 
 ## Design Goals
 - Well designed Templates
