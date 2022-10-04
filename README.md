@@ -4,12 +4,12 @@ This app is an experimental platform built for educational purposes on the Caspe
 # Setup Guide
 Requirements: React.js environment ( npm, node ... ), a browser that has the Casper-Signer plugin installed (e.g. Chromium, Brave )
 ## 0. install dependencies
-root$ npm install
+**root$** npm install
 ## 1. start the express server
-root$ cd src \
-src$ node server.js
+**root$** cd src \
+**src$** node server.js
 ## 2. run the react app
-root$ npm start
+**root$** npm start
 
 
 ## Current functionality
