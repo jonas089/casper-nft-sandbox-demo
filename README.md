@@ -6,7 +6,7 @@ Requirements: React.js environment ( npm, node ... ), a browser that has the Cas
 ## 0. install dependencies
 root$ npm install
 ## 1. start the express server
-$ cd src \
+root$ cd src \
 src$ node server.js
 ## 2. run the react app
 root$ npm start
