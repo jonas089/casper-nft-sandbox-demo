@@ -21,7 +21,7 @@ I assume you know how to use the casper-client to deploy a smart contract and qu
 - See the Hash IDs of Owned NFTs in the "Account" panel
 - See all relevant metadata, aswell as a rendered image
 - Transfer NFTs to other accounts
-## Containts
+## Content
 Javascript files are found in ./casper => constants.js (node address is specified here), \
 controller.js (logic to sign deploys) \
 server.js (an express webserver that sends deploys to the node to bypass cors error -> the app backend) \
