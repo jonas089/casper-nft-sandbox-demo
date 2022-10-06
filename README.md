@@ -100,4 +100,5 @@ That's it, now you have linked your own collection to a local instance of the de
 Congratulations!
 
 ### Additional notes
-If you want to change the metadata schema, you also have to change the RuntimeArg in the Mint function in ./casper/controller.js.
+If you want to change the metadata schema, you also have to change the RuntimeArg in the Mint function in ./casper/controller.js. \
+Keep in mind that this app was developed to showcase the integration of a Casper CEP-78 NFT collection in a React app and is not a mainnet project!
