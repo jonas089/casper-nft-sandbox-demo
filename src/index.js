@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 import WebApp from './pages/webapp';
 import Account from './pages/account';
+import History from './pages/history';
 import Layout from './components/Layout';
 
 import {
@@ -33,6 +34,7 @@ export default function App(){
       </div>
     );
   }
+
   else{
     return(
       <BrowserRouter>
@@ -40,6 +42,7 @@ export default function App(){
             <Route path="/" element={<Layout />}>
             <Route index element={<Account />} />
             <Route path="app" element={<WebApp />} />
+            <Route path="history" element={<History/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

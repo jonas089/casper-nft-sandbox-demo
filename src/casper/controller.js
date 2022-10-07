@@ -5,18 +5,24 @@
 import axios from 'axios';
 import { RuntimeArgs, CLValueBuilder, Contracts, CasperClient, DeployUtil, CLPublicKey, Signer, CLAccountHash } from 'casper-js-sdk';
 import { cep78_contract_hash, node_addr } from './constants.js';
+import { port } from './backend/config.js';
 
+const base_url = "http://localhost:" + port.toString();
 // create an axios webrequest from a signed deploy or fetch request object.
 async function getOwnedIds(account_hash){
     const client = await new CasperClient(node_addr);
     const data = {
       "account_hash": account_hash
     }
-    const owned = await axios.post("http://localhost:3000/getOwnedIds", data, {headers: {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'}}).then((response) => {
+    const owned = await axios.post(base_url + "/getOwnedIds", 
+    data, 
+    {headers: {'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'}})
+    .then((response) => {
         const owned = response.data;
         return owned
-    }).catch((error) => {
-        console.log(error);
+    })
+    .catch((error) => {
         return null
     });
     return owned;
@@ -27,11 +33,15 @@ async function getMetadata(list){
     const data = {
       "list": list
     }
-    const meta = await axios.post("http://localhost:3000/metadata", data, {headers: {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'}}).then((response) => {
+    const meta = await axios.post(base_url + "/metadata", 
+    data, 
+    {headers: {'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'}})
+    .then((response) => {
         const meta = response.data;
         return meta
-    }).catch((error) => {
-        console.log(error);
+    })
+    .catch((error) => {
         return null
     });
     return meta;
@@ -102,34 +112,36 @@ async function Transfer(id, recipient, AccountHash, activeKey){
     });
 }
 
-// account Hash helpers
-function publicKeyBytes(hex_key){
-    return CLPublicKey.fromHex(hex_key);
-}
-  
-async function toHexString(byteArray) {
-    return Array.from(byteArray, function(byte) {
-    return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-    }).join('')
-}
-  
-async function getAccountHash(){
-    const pubkey = await Signer.getActivePublicKey();
-    const accountHash = publicKeyBytes(pubkey).toAccountHash();
-    const parsed = toHexString(accountHash);
-    return parsed;
-}
-
 // Send any signed Deploy to a webserver, no need to touch this function.
 function sendDeploy(signedJson){
     console.log("Signed json: ", signedJson);
-    axios.post("http://localhost:3000/sendDeploy", signedJson, {headers: {'Content-Type': 'application/json','Access-Control-Allow-Origin': '*'}}).then((response) => {
+    axios.post(base_url + "/sendDeploy", 
+    signedJson, 
+    {headers: {'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'}})
+    .then((response) => {
         const hash = response.data;
         console.log("Deploy Successful, Hash: ", hash);
-    }).catch((error) => {
+    })
+    .catch((error) => {
         console.log(error);
     });
 } 
 
+function getHistory(){
+    let history = axios.post(base_url + "/getHistory", [],
+    {headers: {'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'}})
+    .then((response) => {
+        const history = response.data;
+        console.log("History: ", history);
+        return history;
+    })
+    .catch((error) => {
+        console.log(error);
+        return [];
+    });
+    return history;
+} 
 
-export {Mint, Transfer, getOwnedIds, getMetadata, getAccountHash};
+export {Mint, Transfer, getOwnedIds, getMetadata, getHistory};

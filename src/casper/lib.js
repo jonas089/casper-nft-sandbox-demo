@@ -1,8 +1,5 @@
 // This script features helper functions to integrate with the Casper Signer.
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
+const { sleep } = require('./helper.js');
 // async function to get CasperSigner connection status.
 async function getStatus(){
   // temporary solution. Would be better to await the initialization of the chrome plugin.

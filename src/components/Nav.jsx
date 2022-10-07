@@ -66,6 +66,9 @@ export default function NavBar() {
                             <li className="text-gray-600 hover:text-blue-600">
                                 <a href="/app">App</a>
                             </li>
+                            <li className="text-gray-600 hover:text-blue-600">
+                                <a href="/history">History</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

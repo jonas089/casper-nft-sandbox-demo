@@ -2,12 +2,8 @@ import React from 'react';
 import {CLPublicKey, CLAccountHash, CLValueBuilder} from 'casper-js-sdk';
 import {connectSigner, getStatus} from '../casper/lib.js';
 import {getOwnedIds, getMetadata} from '../casper/controller.js';
-function toHexString(byteArray) {
-  return Array.from(byteArray, function(byte) {
-  return ('0' + (byte & 0xFF).toString(16)).slice(-2);
-  }).join('')
-}
-
+import {toHexString} from '../casper/helper.js'
+import LoadingScreen from '../components/Loading.jsx';
 function Account() {
   // constants that need to be set / fetched on render
   const [PubKey, setPubKey] = React.useState(null);
@@ -18,6 +14,9 @@ function Account() {
   // booleans to track loading state
   const [fetchStatus, setFetchStatus] = React.useState(false);
   const [metaStatus, setMetaStatus] = React.useState(false);
+  // the account page is the default landing page, so it will check for whether the server is active or not
+  // if the server is inactive, an error page will be rendered.
+  const [serverStatus, setServerStatus] = React.useState(true);
 
   // reconnect Signer if not connected and set public key
   getStatus().then(s => {
@@ -52,7 +51,10 @@ function Account() {
     let accHashHex = toHexString(accHash);
     //AccountHash;
     getOwnedIds(accHashHex).then(res => {
-      console.log(res);
+      if (res == null){
+        // Server error. Is the backend running?
+        setServerStatus(false);
+      }
       setOwnedNFTs(res);
       setFetchStatus(true);
     })
@@ -61,7 +63,7 @@ function Account() {
   }
 
   // fetch metadata for each NFT once the NFTs are fetched
-  if (fetchStatus == true && metaStatus == false){
+  if (fetchStatus == true && metaStatus == false && serverStatus == true){
     // getMetadata takes a list of hash identifiers
     getMetadata(OwnedNFTs).then(
       meta => {
@@ -71,14 +73,16 @@ function Account() {
     );
   }
 
-
   // render loading page until account hash is set and metadata has been queried.
-  if (AccountHash == null || metaStatus == false){
+  if ((AccountHash == null || metaStatus == false) && serverStatus == true){
     return (
-      <div class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
-      	<div class="animate-spin loader ease-linear rounded-half border-4 border-t-4 border-gray-100 h-12 w-12 mb-4"></div>
-      	<h2 class="text-center text-white text-xl font-semibold">Loading...</h2>
-      	<p class="w-1/3 text-center text-white">If loading takes more than a few seconds, make sure the Signer is unlocked and reload this webapp.</p>
+      <LoadingScreen/>
+    )
+  }
+  else if (serverStatus == false){
+    return(
+      <div>
+        <h1>Server Error Landing Page.</h1>
       </div>
     )
   }

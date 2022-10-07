@@ -1,9 +1,11 @@
 const express = require('express');
 var cors = require('cors');
-const { RuntimeArgs, CLValueBuilder, Contracts, CasperClient, DeployUtil, CLPublicKey, Signer } = require('casper-js-sdk');
-const { node_addr, cep78_contract_hash } = require('./constants.js');
+const {port} = require('./config.js');
+const {Contracts, CasperClient, DeployUtil} = require('casper-js-sdk');
+const {node_addr, cep78_contract_hash} = require('../constants.js');
+const {readJsonFile, writeJsonFile} = require('./storage.js');
+
 const app = express();
-const port = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname + 'public/static'));
@@ -53,9 +55,11 @@ app.post('/metadata', async(req, res) => {
     await product_contract.queryContractDictionary(
       "metadata_custom_validated",
       list[item]
-    ).then(response => {
+    )
+    .then(response => {
       meta.push(response.data);
-    }).catch(error => {
+    })
+    .catch(error => {
       console.log(error);
     })
   }
@@ -68,11 +72,21 @@ app.post('/sendDeploy', (req, res) => {
   console.log(signedJson);
   let signedDeploy = DeployUtil.deployFromJson(signedJson).unwrap();
   console.log("SignedDeploy: ", signedDeploy);
-  signedDeploy.send(node_addr).then((response) => {
-      res.send(response);
-      return;
-  }).catch((error) => {
-      console.log(error);
-      return;
+  signedDeploy.send(node_addr)
+  .then((response) => {
+    let deploy_history = readJsonFile('./data/deploys');
+    deploy_history.push(response);
+    writeJsonFile(deploy_history, './data/deploys');
+    res.send(response);
+    return;
+  })
+  .catch((error) => {
+    console.log(error);
+    return;
   });;
+});
+
+app.post('/getHistory', (req, res) => {
+  const deploy_history = readJsonFile('./data/deploys');
+  res.send(deploy_history);
 });
