@@ -3,6 +3,20 @@
 This app is an experimental platform built for educational purposes on the Casper Blockchain. \
 Users can learn how to mint NFTs on Casper and use the Signer chrome extension, together with the Casper Block Explorer.
 
+# Milestones and Roadmap
+
+**October 2022**
+
+- improve error handling / detect server errors and render a landing page. **Status: complete.**
+- transaction history panel **Status: complete.**
+- introduction of components **Status: in the works.**
+- cleaner code **Status: partially clean.**
+
+**November 2022**
+
+- new loading screen
+- design improvements
+
 # Setup Guide
 Requirements: React.js environment ( npm, node ... ), a browser that has the Casper-Signer plugin installed (e.g. Chromium, Brave ) \
 I assume you know how to use the casper-client to deploy a smart contract and query an account / global state. \

@@ -6,7 +6,7 @@ function History() {
     const [isLoading, setIsLoading] = React.useState(true);
     if (isLoading == true){
         getHistory().then(res => {
-            setHistory(res);
+            setHistory(res.reverse());
             setIsLoading(false);
         });
     }
