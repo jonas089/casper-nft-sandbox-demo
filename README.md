@@ -3,6 +3,10 @@
 This app is an experimental platform built for educational purposes on the Casper Blockchain. \
 Users can learn how to mint NFTs on Casper and use the Signer chrome extension, together with the Casper Block Explorer.
 
+# Video tutorial series
+[Workshop](https://youtube.com/playlist?list=PLq1atlGCXMqMgoMPKvMiA219LQXA_iPEI) on the Cep-78 NFT standard and Casper Sandbox application on Youtube.
+Edit: In the second video, I made a mistake saying that the transfer function takes a hash identifier and an account-hash. To send tokens you should supply the hash identifier and the publickey. At the current state of the application, the Transfer button will be unresponsive when an account-hash, or anything other than a valid public key is supplied.
+
 # Milestones and Roadmap
 
 **Latest Changes**
