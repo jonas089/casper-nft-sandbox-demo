@@ -7,9 +7,9 @@ export default class AccountComponent extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1 className='text-red-400 text-center outline outline-red-400'>My NFTs</h1>
-        <div className='bg-gray-800 flex items-stretch items-center flex-wrap bg-cover'>
+      <div className="bg-gray-800">
+        <h1 className='text-red-400 text-center outline outline-red-400'>Sandbox App - Owned NFTs</h1>
+        <div className= 'flex items-stretch items-center flex-wrap bg-cover'>
           {this.props.Metadata.map((meta, id) => (
             <div class="px-5 py-6">
               <div class="max-w-sm rounded break-all shadow-lg px-8 bg-gray-200 py-2 ">

@@ -9,6 +9,7 @@ Users can learn how to mint NFTs on Casper and use the Signer chrome extension, 
 
 - Moved History and Account render function to newly created components
 - cleaner code
+- style improvements
 
 **October 2022**
 
@@ -60,6 +61,8 @@ note: Multi Token standard not yet complete -> finish and open-source before imp
 - use of a deprecated react feature ( ReactDOM )
 - re-fresh of page is required after unlocking / connecting the signer
 - app does not detect a locked signer ( yet ) -> make sure the signer is unlocked and re-fresh if stuck on loading...
+- no error visualized when accidentally using account-hash instead of public key with "transfer"
+
 
 # The NFT Contract (CEP-78)
 For this demo, the modalities of the NFT standard have been hardcoded and represent a digital NFT, whose metadata can not be modified. \
