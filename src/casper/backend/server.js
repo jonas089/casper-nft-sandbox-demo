@@ -1,3 +1,5 @@
+// This is the app backend. Required to send signed deploys to the node and query state.
+
 const express = require('express');
 var cors = require('cors');
 const {port} = require('./config.js');

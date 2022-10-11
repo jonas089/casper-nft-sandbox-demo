@@ -5,12 +5,16 @@ Users can learn how to mint NFTs on Casper and use the Signer chrome extension, 
 
 # Milestones and Roadmap
 
+**Latest Changes**
+
+- Moved History and Account render function to newly created components
+- cleaner code
+
 **October 2022**
 
 - improve error handling / detect server errors and render a landing page. **Status: complete.**
 - transaction history panel **Status: complete.**
-- introduction of components **Status: in the works.**
-- cleaner code **Status: partially clean.**
+- cleaner code **Status: in the works. trying to use more components and follow react best practice**
 
 **November 2022**
 

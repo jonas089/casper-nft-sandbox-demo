@@ -55,6 +55,10 @@ function WebApp() {
     )
   }
   else{
+    // To be done:
+    // Move this render to a component named Account.jsx / AccountComponent class.
+    // Call Mint from within the component, move handlers for input to the component.
+    // Pass props similar to Account and History components.
     return (
       <div className='bg-gray-800'>
         <h1 className='text-red-400 text-center outline outline-red-400'>Sandbox App</h1>
