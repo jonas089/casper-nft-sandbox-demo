@@ -7,13 +7,24 @@ Users can learn how to mint NFTs on Casper and use the Signer chrome extension, 
 [Workshop](https://youtube.com/playlist?list=PLq1atlGCXMqMgoMPKvMiA219LQXA_iPEI) on the Cep-78 NFT standard and Casper Sandbox application on Youtube.
 Edit: In the second video, I made a mistake saying that the transfer function takes a hash identifier and an account-hash. To send tokens you should supply the hash identifier and the publickey. At the current state of the application, the Transfer button will be unresponsive when an account-hash, or anything other than a valid public key is supplied.
 
+# Use the "App" Interface
+## Mint
+Input a name, description and any URL to an image on the web (e.g. .png, .jpg, ...). \
+Then press "mint" and sign the transaction. \
+Next, navigate to the "History" page and trace the transaction on the Explorer.
+
+## Transfer
+Input the hash-id of a Token (above the image in "Account" page) \
+and a public key ( copy from the explorer ) as a "recipient". \
+Press "Transfer" to send a token to another account. \
+In the app, the public key will be converted to an account hash. \
+All tokens are stored under a user's account hash.
+
 # Milestones and Roadmap
 
 **Latest Changes**
 
-- Moved History and Account render function to newly created components
-- cleaner code
-- style improvements
+- Removed timeout and instead awaits the plugin to load
 
 **October 2022**
 
@@ -52,7 +63,7 @@ lib.js (functions to monitor the state of the casper signer)
 
 ## Planned functionality
 note: Multi Token standard not yet complete -> finish and open-source before implementing the following. \
-- Support Multi-token Standard 
+- Support Multi-token Standard
 - Manage multiple collections
 ## Post-release Design Goals
 - Add Templates
@@ -79,8 +90,8 @@ Examples for non-custom, standard json schemes: ERC20(Casper&Ethereum), ERC721(E
 In a production application, you will not want to use this custom metadata scheme, with a metadata URI and an NFT backend instead of just a URL to an image on the web. \
 Make sure you fully understand the readme of the [CEP-78](https://github.com/casper-ecosystem/cep-78-enhanced-nft) NFT standard before you proceed. \
 The example smart contract for this demo app uses a custom metadata scheme: '{\"nft_name\":\"somename01\",\"nft_description\":\"somedescription01\",\"nft_url\":\"someurl01\"}'. \
-Therefore, when deploying the example contract, one has to specifie the corresponding json_scheme modality \ 
-to include all relevant metadata ( 3 parameters ): 
+Therefore, when deploying the example contract, one has to specifie the corresponding json_scheme modality \
+to include all relevant metadata ( 3 parameters ):
 When using the casper Client, the json_scheme has to be provided as an **escaped** json string: \
 
 ```

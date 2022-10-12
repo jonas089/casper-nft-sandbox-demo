@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
 // tailwind in index.css
 import './index.css';
 // optional
 import reportWebVitals from './reportWebVitals';
-
+import LoadingPluginScreen from './components/LoadingPlugin';
 import WebApp from './pages/webapp';
 import Account from './pages/account';
 import History from './pages/history';
@@ -16,26 +16,72 @@ import {
   Route,
 } from "react-router-dom";
 
-import {getStatus, connectSigner} from './casper/lib.js';
+import {getStatus, connectSigner, getPluginStatus} from './casper/lib.js';
+
+function Timer() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCount((count) => count + 1);
+    }, 1000);
+  });
+  return <h1>I've rendered {count} times!</h1>;
+}
 
 export default function App(){
   const [connectionStatus, setConnectionStatus] = React.useState(false);
-  connectSigner();
-  getStatus().then((status) => {
-    setConnectionStatus(status);
+  const [pluginStatus, updatePluginStatus] = React.useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      if (getPluginStatus() == true){
+        console.log("Plugin is connected.");
+        updatePluginStatus(true);
+        connectSigner();
+      }
+      else{
+        console.log("Plugin not connected.");
+      }
+    }, 1000);
   });
-  
-  if (connectionStatus == false){
-    return (
-      <div class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
-      	<div class="animate-spin loader ease-linear rounded-half border-4 border-t-4 border-gray-100 h-12 w-12 mb-4"></div>
-      	<h2 class="text-center text-white text-xl font-semibold">Loading...</h2>
-      	<p class="w-1/3 text-center text-white">If loading takes longer than a few seconds, unlock the Signer and refresh the website.</p>
+  if (pluginStatus == false){
+    return(
+      <div>
+        <LoadingPluginScreen/>
       </div>
-    );
+    )
+  }
+  else{
+    getStatus().then(status => {
+      setConnectionStatus(status);
+    });
+    if (connectionStatus == true){
+      return(
+        <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+              <Route index element={<Account />} />
+              <Route path="app" element={<WebApp />} />
+              <Route path="history" element={<History/>}/>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        );
+    }
+    else{
+      return(
+        <div>
+          <LoadingPluginScreen/>
+        </div>
+      )
+    }
   }
 
-  else{
+  /*getStatus().then((status) => {
+    setConnectionStatus(status);
+  });*/
+
+  /*else{
     return(
       <BrowserRouter>
           <Routes>
@@ -47,7 +93,7 @@ export default function App(){
         </Routes>
       </BrowserRouter>
       );
-  }
+  }*/
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

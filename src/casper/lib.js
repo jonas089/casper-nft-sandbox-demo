@@ -5,9 +5,18 @@ async function getStatus(){
   // temporary solution. Would be better to await the initialization of the chrome plugin.
   // Don't yet know how to optimize this process. Should work in most cases.
   // Refresh if connection request is not initiated.
-  await sleep(1000);
+  //await sleep(1000);
   let status = await window.casperlabsHelper.isConnected();
   return status;
+}
+function getPluginStatus(){
+  console.log(window.casperlabsHelper);
+  if (window.casperlabsHelper != undefined){
+    return true;
+  }
+  else{
+    return false;
+  }
 }
 function connectSigner(){
   getStatus().then(s =>
@@ -22,4 +31,4 @@ function connectSigner(){
   });
 }
 
-export {connectSigner, getStatus}
+export {connectSigner, getStatus, getPluginStatus}
