@@ -18,17 +18,6 @@ import {
 
 import {getStatus, connectSigner, getPluginStatus} from './casper/lib.js';
 
-function Timer() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setCount((count) => count + 1);
-    }, 1000);
-  });
-  return <h1>I've rendered {count} times!</h1>;
-}
-
 export default function App(){
   const [connectionStatus, setConnectionStatus] = React.useState(false);
   const [pluginStatus, updatePluginStatus] = React.useState(false);
@@ -76,24 +65,6 @@ export default function App(){
       )
     }
   }
-
-  /*getStatus().then((status) => {
-    setConnectionStatus(status);
-  });*/
-
-  /*else{
-    return(
-      <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-            <Route index element={<Account />} />
-            <Route path="app" element={<WebApp />} />
-            <Route path="history" element={<History/>}/>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-      );
-  }*/
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
