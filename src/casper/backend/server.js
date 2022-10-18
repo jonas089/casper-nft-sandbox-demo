@@ -27,7 +27,6 @@ app.post('/getOwnedIds', async (req, res) => {
     "owned_tokens", // hardcoded as part of NFT standard.
     account_hash
   ).then(response => {
-    console.log("RESPONSE getOwnedIds: ", response);
     for (let i = 0; i < response.data.length; i++){
       owned.push(response.data[i].data);
     };
@@ -52,11 +51,10 @@ app.post('/metadata', async(req, res) => {
   product_contract.setContractHash(cep78_contract_hash);
   const list = req.body.list;
   let meta = [];
-  for (item in list) {
-    console.log("Item is: ", list[item].toString());
+  for (let item of list) {
     await product_contract.queryContractDictionary(
       "metadata_custom_validated",
-      list[item]
+      item
     )
     .then(response => {
       meta.push(response.data);

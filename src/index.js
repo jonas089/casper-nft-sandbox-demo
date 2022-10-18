@@ -21,12 +21,17 @@ import {getStatus, connectSigner, getPluginStatus} from './casper/lib.js';
 export default function App(){
   const [connectionStatus, setConnectionStatus] = React.useState(false);
   const [pluginStatus, updatePluginStatus] = React.useState(false);
+  const [count, setCount] = useState(0);
   useEffect(() => {
     setTimeout(() => {
+      setCount(count + 1);
+      console.log(count);
       if (getPluginStatus() == true){
         console.log("Plugin is connected.");
         updatePluginStatus(true);
-        connectSigner();
+        if (!connectionStatus){
+          connectSigner();
+        }
       }
       else{
         console.log("Plugin not connected.");
