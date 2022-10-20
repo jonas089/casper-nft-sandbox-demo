@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
+import {Signer} from 'casper-js-sdk';
 // tailwind in index.css
 import './index.css';
 // optional

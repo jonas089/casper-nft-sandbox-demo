@@ -1,23 +1,25 @@
 // This is the app backend. Required to send signed deploys to the node and query state.
-
+var fs = require('fs');
 const express = require('express');
 var cors = require('cors');
-const {port} = require('./config.js');
+var http = require('http');
+const {port} = require('./config.js')
 const {Contracts, CasperClient, DeployUtil} = require('casper-js-sdk');
 const {node_addr, cep78_contract_hash} = require('../constants.js');
 const {readJsonFile, writeJsonFile} = require('./storage.js');
-
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname + 'public/static'));
-app.listen(port, () => {
-  console.log(`Sandbox backend listening at http://localhost:${port}`)
-});
+var httpServer = http.createServer(app);
+httpServer.listen(port, () => {console.log("Running HTTP on ", port);});
+
+app.get('/', async (req, res) => {console.log('/ request received.')})
+app.get('/test', async (req, res) => {console.log('/test request received.')})
 
 // webserver route to fetch hash identifiers of owned NFTs for an account.
 app.post('/getOwnedIds', async (req, res) => {
-  //const client = await new CasperClient(node_addr);
+  console.log("/getOwnedIds request received.");
   const account_hash = req.body.account_hash;
   const client = await new CasperClient(node_addr);
   let owned = [];

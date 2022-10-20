@@ -7,7 +7,7 @@ import { RuntimeArgs, CLValueBuilder, Contracts, CasperClient, DeployUtil, CLPub
 import { cep78_contract_hash, node_addr } from './constants.js';
 import { port } from './backend/config.js';
 
-const base_url = "http://localhost:" + port.toString();
+const base_url = "https://cspr.gallery/api";
 // create an axios webrequest from a signed deploy or fetch request object.
 async function getOwnedIds(account_hash){
     const client = await new CasperClient(node_addr);
