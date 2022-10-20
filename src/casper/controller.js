@@ -7,15 +7,15 @@ import { RuntimeArgs, CLValueBuilder, Contracts, CasperClient, DeployUtil, CLPub
 import { cep78_contract_hash, node_addr } from './constants.js';
 import { port } from './backend/config.js';
 
-const base_url = "https://127.0.0.1:", port.toString();
+const base_url = "http://127.0.0.1:" + port.toString();
 // create an axios webrequest from a signed deploy or fetch request object.
 async function getOwnedIds(account_hash){
     const client = await new CasperClient(node_addr);
     const data = {
       "account_hash": account_hash
     }
-    const owned = await axios.post(base_url + "/getOwnedIds", 
-    data, 
+    const owned = await axios.post(base_url + "/getOwnedIds",
+    data,
     {headers: {'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'}})
     .then((response) => {
@@ -33,8 +33,8 @@ async function getMetadata(list){
     const data = {
       "list": list
     }
-    const meta = await axios.post(base_url + "/metadata", 
-    data, 
+    const meta = await axios.post(base_url + "/metadata",
+    data,
     {headers: {'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'}})
     .then((response) => {
@@ -92,7 +92,7 @@ async function Transfer(id, recipient, AccountHash, activeKey){
         'token_hash': CLValueBuilder.string(id),
         'source_key': CLValueBuilder.key(AccountHash),
         'target_key': CLValueBuilder.key(clKeyAccHash)
-            // Sandbox deploy schema looks like this: 
+            // Sandbox deploy schema looks like this:
             //'{\"nft_name\":\"somename01\",\"nft_description\":\"somedescription01\",\"nft_url\":\"someurl01\"}'
     });
     const pubkey = CLPublicKey.fromHex(activeKey);
@@ -115,8 +115,8 @@ async function Transfer(id, recipient, AccountHash, activeKey){
 // Send any signed Deploy to a webserver, no need to touch this function.
 function sendDeploy(signedJson){
     console.log("Signed json: ", signedJson);
-    axios.post(base_url + "/sendDeploy", 
-    signedJson, 
+    axios.post(base_url + "/sendDeploy",
+    signedJson,
     {headers: {'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*'}})
     .then((response) => {
@@ -126,12 +126,10 @@ function sendDeploy(signedJson){
     .catch((error) => {
         console.log(error);
     });
-} 
+}
 
 function getHistory(){
-    let history = axios.post(base_url + "/getHistory", [],
-    {headers: {'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'}})
+    let history = axios.get(base_url + "/getHistory")
     .then((response) => {
         const history = response.data;
         console.log("History: ", history);
@@ -142,6 +140,6 @@ function getHistory(){
         return [];
     });
     return history;
-} 
+}
 
 export {Mint, Transfer, getOwnedIds, getMetadata, getHistory};

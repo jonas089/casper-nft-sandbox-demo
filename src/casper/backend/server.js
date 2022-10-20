@@ -88,7 +88,7 @@ app.post('/sendDeploy', (req, res) => {
   });;
 });
 
-app.post('/getHistory', (req, res) => {
+app.get('/getHistory', (req, res) => {
   const deploy_history = readJsonFile('./data/deploys');
   res.send(deploy_history);
 });
