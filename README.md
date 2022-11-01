@@ -1,4 +1,4 @@
-# A new version is in the making with a much better design, less bugs and more functionality. \n 
+# A new version is in the making with a much better design, less bugs and more functionality.
 Estimaed update by November! \
 This app will migrate to Signer V2 once in beta!
 
