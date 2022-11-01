@@ -1,5 +1,5 @@
 # A new version is in the making with a much better design, less bugs and more functionality. \n 
-Estimaed update by November! \n
+Estimaed update by November! \
 This app will migrate to Signer V2 once in beta!
 
 # React Casper NFT Sandbox, an open source demo project to showcase the CEP-78 enhanced NFT Standard
