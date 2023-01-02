@@ -1,6 +1,8 @@
 
 # Get the latest version here: https://github.com/jonas089/VE-project/
 
+# Deprecation
+Please don't use this repository. I have built a much better version of this app that is available [here](https://github.com/jonas089/VE-project) using the latest React implementations. This repo is only kept alive to show my personal progress as a React-developer. Comparing this version to the latest one will show some of my personal progress in 2022.
 
 # React Casper NFT Sandbox, an open source demo project to showcase the CEP-78 enhanced NFT Standard
 **Please** make sure to read this entire documentation, as otherwise it will be extremely hard to use and modify this application. \
